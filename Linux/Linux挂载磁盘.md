@@ -8,14 +8,10 @@ lsblk
 # 创建data文件夹
 mkdir -pv /data
 
-
-
 # 格式化磁盘，格式化磁盘格式为ext4
 mkfs.ext4 /dev/sdb
 mkfs -t ext4 /dev/sdb
 mkfs -V -t ext4 /dev/sdb
-
-
 
 mkfs [-V] [-t fstype] [fs-options] file sys [blocks]
 -V 详细显示模式
