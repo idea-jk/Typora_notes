@@ -112,6 +112,9 @@ vi /etc/systemd/system/docker.service.d/devicemapper.conf
 ExecStart=
 ExecStart=/usr/bin/dockerd  --graph=/data/docker/lib/docker
 
+systemctl daemon-reload
+systemctl restart docker
+
 # 确认Docker Root Dir修改是否已经生效
 docker info
 ```
