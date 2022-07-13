@@ -95,22 +95,20 @@ docker cp -L /usr/share/zoneinfo/Asia/Shanghai  容器ID:/etc/localtime
 
 # docker修改默认存储路径
 # 在linux下通常docker都是默认安装的，且默认的镜像，容器存储路径都位于/var/lib/docker中，可以通过docker info命令来查看
+docker stop $(docker ps -aq)
+systemctl stop docker
 
 # 迁移/var/lib/docker目录下面的文件到/data/docker/lib
 # 迁移后的完成docker路径：/data/docker/lib/docker
 rsync -avz /var/lib/docker/ /data/docker/lib/
 
-# 配置 /etc/systemd/system/docker.service.d/devicemapper.conf
-# 查看/etc/systemd/system/docker.service.d目录及devicemapper.conf是否存在。如果不存在，就新建
+# 配置 /usr/lib/systemd/system/docker.service
 
-mkdir -p /etc/systemd/system/docker.service.d/
-vi /etc/systemd/system/docker.service.d/devicemapper.conf
-
-# devicemapper.conf添加如下内容：
+vim /usr/lib/systemd/system/docker.service
+# docker.service添加如下内容：
 
 [Service]
-ExecStart=
-ExecStart=/usr/bin/dockerd  --graph=/data/docker/lib/docker
+ExecStart=/usr/bin/dockerd  --graph=/data/docker/lib
 
 systemctl daemon-reload
 systemctl restart docker
