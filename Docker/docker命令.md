@@ -100,7 +100,7 @@ systemctl stop docker
 
 # 迁移/var/lib/docker目录下面的文件到/data/docker/lib
 # 迁移后的完成docker路径：/data/docker/lib/docker
-rsync -avz /var/lib/docker/ /data/docker/lib/
+rsync -avz /var/lib/docker/ /data/docker/lib/docker
 
 # 配置 /usr/lib/systemd/system/docker.service
 
@@ -108,7 +108,7 @@ vim /usr/lib/systemd/system/docker.service
 # docker.service添加如下内容：
 
 [Service]
-ExecStart=/usr/bin/dockerd  --graph=/data/docker/lib
+ExecStart=/usr/bin/dockerd  --graph=/data/docker/lib/docker
 
 systemctl daemon-reload
 systemctl restart docker
