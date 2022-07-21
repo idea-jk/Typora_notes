@@ -12,8 +12,12 @@ docker pull 镜像名:版本(lates，5.7)
 docker rmi -f 镜像ID
 # 修改镜tag名称
 docker tag 镜像ID mysql:v8.29
+# docker打包镜像
+docker save -o [要保存文件名] [需要保存的镜像名]
 # 载入容器
 docker import new-phpdev.tar phpdev:v1
+docker load --import [文件名]
+docker load < [文件名]
 
 # 使用sed 拼接命令 借助管道符 交给bash（注意修改成你对应的文件后缀）
 ls *.tat|awk '{print $NF}'|sed -r 's#(.*)#sudo docker load -i \1#' |bash
@@ -110,6 +114,7 @@ vim /usr/lib/systemd/system/docker.service
 [Service]
 ExecStart=/usr/bin/dockerd  --graph=/data/docker/lib/docker
 
+# 重新加载unit配置文件并重启docker
 systemctl daemon-reload
 systemctl restart docker
 
