@@ -84,6 +84,7 @@ docker logs --since="2022-05-01" --tail=10 mysql
 
 # 运行prune命令清理垃圾并释放资源
 docker system prune --volumes
+docker images prune -a
 
 # 查看容器内进程
 docker top 容器ID
@@ -120,5 +121,7 @@ systemctl restart docker
 
 # 确认Docker Root Dir修改是否已经生效
 docker info
+# 查看docker磁盘占用情况
+docker system df
 ```
 
