@@ -7,7 +7,7 @@ docker image ls
 # 查询镜像
 docker search 镜像名字
 # 下载镜像
-docker pull 镜像名:版本(lates，5.7)
+docker pull 镜像名:版本(latest，5.7)
 # 删除镜像
 docker rmi -f 镜像ID
 # 修改镜tag名称
@@ -104,8 +104,8 @@ docker stop $(docker ps -aq)
 systemctl stop docker
 
 # 迁移/var/lib/docker目录下面的文件到/data/docker/lib
-# 迁移后的完成docker路径：/data/docker/lib/docker
-rsync -avz /var/lib/docker/ /data/docker/lib/docker
+# 迁移后的完成docker路径：/data/docker/lib/dockerd
+rsync -avz /var/lib/docker/ /data/docker/lib/dockerd
 
 # 配置 /usr/lib/systemd/system/docker.service
 
@@ -113,7 +113,7 @@ vim /usr/lib/systemd/system/docker.service
 # docker.service添加如下内容：
 
 [Service]
-ExecStart=/usr/bin/dockerd  --graph=/data/docker/lib/docker
+ExecStart=/usr/bin/dockerd  --graph=/data/docker/lib/dockerd
 
 # 重新加载unit配置文件并重启docker
 systemctl daemon-reload
