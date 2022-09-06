@@ -8,6 +8,7 @@
 
 ```shell
 tar -zcvf service/* service.tar.gz
+tar zcvf service.tar.gz service/*
 ```
 
 **参数说明：**
