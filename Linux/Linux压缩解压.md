@@ -34,7 +34,7 @@ split -b 100m -d service.tar.gz service
 
 
 
-#### 方式二（推荐）：1步，压缩+分卷
+#### 方式二（推荐）：一步压缩+分卷
 
 将service打包，并分割为100m大小的包，分割后的文件名以service为开头，service00、service01、service02…
 
