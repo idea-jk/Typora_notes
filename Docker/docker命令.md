@@ -16,6 +16,8 @@ docker tag 镜像ID mysql:v8.29
 docker save -o [要保存文件名] [需要保存的镜像名]
 # 载入容器
 docker import new-phpdev.tar phpdev:v1
+cat new-phpdev.tar | docker import new-phpdev/phpdev:v1
+
 docker load --import [文件名]
 docker load < [文件名]
 
