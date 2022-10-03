@@ -12,7 +12,7 @@ Compose 使用的三个步骤：
 
 docker-compose.yml 的配置案例如下（配置参数参考下文）：
 
-## 实例
+## 配置实例
 
 ```yaml
 \# yaml 配置实例
