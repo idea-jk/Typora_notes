@@ -30,7 +30,7 @@ IPawk '{print $1}' /var/log/nginx/acces.log | sort | uniq -c | sort -n
 deny 66.249.79.84 ; 
 ```
 
-## Nginx 的典型配置
+## 典型配置
 
 ```nginx
 user  nginx;                        # 运行用户，默认即是nginx，可以不进行设置

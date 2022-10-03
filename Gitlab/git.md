@@ -99,3 +99,27 @@ git reset --hard c9357709df57e8397ca25e404948658cfa6ffed1
 ```shell
 git branch -M main
 ```
+
+### git_push.sh
+
+```shell
+#!/bin/bash
+date_time=`date +%F`
+cd Typora_notes
+if [ $? -eq 0 ]; then
+  # 查看连接状态
+  git remote -v
+  # 拉取同步
+  git pull origin main
+  # 添加上传文件'.'表示当前的目录
+  # git add .
+  git add .
+  # 添加上传文件备注,可以用版本好区分
+  git commit -m "$date_time"
+  # 上传文件
+  git push origin main
+else
+  echo "进入Typora_notes目录失败" && exit
+fi
+```
+

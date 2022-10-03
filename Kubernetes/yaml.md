@@ -37,7 +37,7 @@ YAML 支持的数据结构有三种。
 ##### 5、YAML字典写法解释
 
 ```yaml
-字典
+# 字典
     a={key:value,key1:{key2:value2},key3:{key4:[1,{key5:value5},3,4,5]}}
 
 key: value
@@ -93,7 +93,7 @@ metadata:
   labels:
     app: web    
   {apiVersion:v1,kind:Pod,metadata:{name:kube100-site,labels:{app:web}}}  
-注：上述的YAML文件中，metadata这个KEY对应的值为一个Maps，而嵌套的labels这个KEY的值又是一个Map。实际使用中可视情况进行多层嵌套。
+# 注：上述的YAML文件中，metadata这个KEY对应的值为一个Maps，而嵌套的labels这个KEY的值又是一个Map。实际使用中可视情况进行多层嵌套。
 ```
 
 YAML处理器根据行缩进来知道内容之间的关联。例子中，使用两个空格作为缩进，缩进至少要求一个空格并且所有缩进保持一致的空格数 。
@@ -139,7 +139,7 @@ spec:
       image: jcdemo/flaskapp
       ports: 8080
   {apiversion:v1,kind:Pod,metadata:{name:kube100,labels:{app:web}},spec:{containers:[name,image,ports]},}        
-如上述文件所示，定义一个containers的List对象，每个子项都由name、image、ports组成，每个ports都有一个KEY为containerPort的Map组成，转成JSON格式文件：
+#如上述文件所示，定义一个containers的List对象，每个子项都由name、image、ports组成，每个ports都有一个KEY为containerPort的Map组成，转成JSON格式文件：
 {
   "apiVersion": "v1",
   "kind": "Pod",
@@ -206,17 +206,17 @@ spec:
       image: jcdemo/flaskapp
       ports:
         - containerPort: 5000
-注意:
-apiVersion：
-    此处值是v1，这个版本号需要根据安装的Kubernetes版本和资源类型进行变化，记住不是写死的。
-kind：
-    此处创建的是Pod，根据实际情况，此处资源类型可以是Deployment、Job、Ingress、Service等。
-metadata：
-    包含Pod的一些meta信息，比如名称、namespace、标签等信息。
-spec：
-    包括一些container，storage，volume以及其他Kubernetes需要的参数，以及诸如是否在容器失败时重新启动容器的属性。可在特定Kubernetes API找到完整的Kubernetes Pod的属性。
+# 注意:
+# apiVersion：
+#     此处值是v1，这个版本号需要根据安装的Kubernetes版本和资源类型进行变化，记住不是写死的。
+# kind：
+#     此处创建的是Pod，根据实际情况，此处资源类型可以是Deployment、Job、Ingress、Service等。
+# metadata：
+#     包含Pod的一些meta信息，比如名称、namespace、标签等信息。
+# spec：
+#     包括一些container，storage，volume以及其他Kubernetes需要的参数，以及诸如是否在容器失败时重新启动容器的属性。可在特定Kubernetes API找到完整的Kubernetes Pod的属性。
 
-以下是典型的定义容器
+# 以下是典型的定义容器
 spec:
   containers:
     - name: front-end
@@ -224,8 +224,8 @@ spec:
       ports:
         - containerPort: 80
     一个名字（front-end）、基于nginx的镜像，以及容器将会监听的指定端口号（80）
-扩展了解:
-    容器可选的设置属性包括：name、image、command、args、workingDir、ports、env、resource、volumeMounts、livenessProbe、readinessProbe、livecycle、terminationMessagePath、imagePullPolicy、securityContext、stdin、stdinOnce、tty
+# 扩展了解:
+#     容器可选的设置属性包括：name、image、command、args、workingDir、ports、env、resource、volumeMounts、livenessProbe、readinessProbe、livecycle、terminationMessagePath、imagePullPolicy、securityContext、stdin、stdinOnce、tty
 ```
 
 ##### 9、通过yaml文件创建Pod
@@ -329,7 +329,7 @@ spec:
         image: nginx:1.16
         ports:
         - containerPort: 80
-创建deployment:
+# 创建deployment:
 [root@master yaml-test]# kubectl create -f  deployment.yaml 
 deployment.apps/nginx-deployment created
 [root@master yaml-test]# kubectl get pods -o wide
@@ -340,7 +340,7 @@ nginx-deployment-86dc686b9f-t9b26                     0/1     ContainerCreating 
 [root@master yaml-test]# kubectl get deployment
 NAME    READY   UP-TO-DATE   AVAILABLE   AGE
 nginx-deployment        3/3     3            3           6m20s
-查看标签,通过标签查找pod
+# 查看标签,通过标签查找pod
 [root@master yaml-test]# kubectl get pod --show-labels
 NAME     READY   STATUS    RESTARTS   AGE     LABELS
 nginx-deployment-86dc686b9f-8xnqj                     1/1     Running   0          7m26s   app=nginx,pod-template-hash=86dc686b9f
@@ -406,11 +406,11 @@ nginx-server:容器name
 kubectl exec [POD] [COMMAND] is DEPRECATED and will be removed in a future version. Use kubectl exec [POD] -- [COMMAND] instead.
 root@nginx-deployment-7948d65cd5-dfmtd:/# nginx -v       
 nginx version: nginx/1.18.0
-升级镜像的过程是逐步进行的，pod不会一下子全部关闭，而是一个一个升级
-查看发布状态:
+# 升级镜像的过程是逐步进行的，pod不会一下子全部关闭，而是一个一个升级
+# 查看发布状态:
 [root@master yaml-test]# kubectl rollout status deploy/nginx-deployment
 deployment "nginx-deployment" successfully rolled out
-查看deployment历史修订版本:
+# 查看deployment历史修订版本:
 [root@master yaml-test]# kubectl rollout history deploy/nginx-deployment
 deployment.apps/nginx-deployment 
 REVISION  CHANGE-CAUSE
@@ -449,7 +449,7 @@ Pod Template:
 
 ```yaml
 [root@master yaml-test]# kubectl edit deploy/nginx-deployment
-通过编辑也可以进行容器应用的升级
+# 通过编辑也可以进行容器应用的升级
 ```
 
 扩容和缩容
