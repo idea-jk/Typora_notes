@@ -16,6 +16,8 @@ service firewalld start
 service firewalld restart
 # 关闭
 service firewalld stop
+# 刷新
+firewall-cmd --reload
 
 # 查看防火墙规则
 firewall-cmd --list-all
