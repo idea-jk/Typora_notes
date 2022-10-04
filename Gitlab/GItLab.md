@@ -65,6 +65,12 @@ firewall-cmd --zone=public --add-port=9999/tcp --permanent
 firewall-cmd --reload
 ```
 
+## docker-compose-gitlab.yaml
+
+```shell
+docker-compose -p gitlab-server -f docker-compose-gitlab.yaml up -d
+```
+
 ```yaml
 version: "2"
 services:
