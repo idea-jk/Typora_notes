@@ -12,14 +12,14 @@ Centos 通过`yum`安装(RPM分发进行安装)MySQL的几个人默认目录如�
 
 假如要把目录移到/data下需要进行下面几步：
 
-1、/目录下建立data目录
+根目录下建立data目录
 
 ```shell
 mkdir -p /data
 cd /data
 ```
 
-把MySQL服务进程停掉
+停止MySQL服务进程
 
 ```shell
 systemctl stop mysqld
@@ -31,6 +31,8 @@ systemctl status mysqld
 ```shell
  cp -R /var/lib/mysql/* /data/mysql
 ```
+
+赋予文件权限
 
 ```shell
 chown -R mysql:mysqlgroup /data/mysql
