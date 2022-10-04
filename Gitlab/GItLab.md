@@ -65,3 +65,22 @@ firewall-cmd --zone=public --add-port=9999/tcp --permanent
 firewall-cmd --reload
 ```
 
+```yaml
+version: "2"
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    container_name: gitlab
+    restart: always
+    privileged: true
+    volumes:
+      - /data/gitlab/config:/etc/gitlab
+      - /data/gitlab/logs:/var/log/gitlab
+      - /data/gitlab/data:/var/opt/gitlab
+      - /data/gitlab/logs/reconfigure:/var/log/gitlab/reconfigure
+    ports:
+      - "443:443"
+      - "9999:8012"
+      - "9998:22"
+```
+
