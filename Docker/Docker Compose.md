@@ -15,25 +15,6 @@ docker-compose.yml 的配置案例如下（配置参数参考下文）：
 ## 配置实例
 
 ```yaml
-\# yaml 配置实例
-version**:** '3'
-services:
- web:
-  build**:** .
-  ports**:
-**  - "5000:5000"
-  volumes**:
-**  - .:/code
-  \- logvolume01:/var/log
-  links**:
-**  - redis
- redis:
-  image**:** redis
-volumes:
- logvolume01**:** {}
-```
-
-```yaml
 version: "2"
 services:
   nacos:
@@ -125,15 +106,14 @@ cker-compose version 1.24.1, build 4667896b
 ## docker-compose.yml 配置文件
 
 ```yaml
-\# yaml 配置
-version**:** '3'
+version: '3'
 services:
  web:
-  build**:** .
-  ports**:
-**   - "5000:5000"
+  build: .
+  ports:
+   - "5000:5000"
  redis:
-  image**:** "redis:alpine"
+  image: "redis:alpine"
 ```
 
 该 Compose 文件定义了两个服务：web 和 redis。

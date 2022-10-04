@@ -1,21 +1,21 @@
 ```shell
 docker pull gitlab/gitlab-ce
 docker load < gitlab_gitlab-ce.tar
-mkdir -pv /data/gitlab/config   /data/gitlab/logs   /data/gitlab/data
+mkdir -pv /data/gitlab/config /data/gitlab/logs /data/gitlab/data
 
 # 构建容器
 docker run --detach \
 --hostname  gitlab \
 --publish 443:443  \
---publish  9999:8012  \
---publish  9998:22 \
+--publish 9999:8012  \
+--publish 9998:22 \
 --privileged=true  \
 --name gitlab \
 --restart always \
 --volume /data/gitlab/config:/etc/gitlab \
 --volume /data/gitlab/logs:/var/log/gitlab \
 --volume /data/gitlab/data:/var/opt/gitlab \
---volume  /data/gitlab/logs/reconfigure:/var/log/gitlab/reconfigure \
+--volume /data/gitlab/logs/reconfigure:/var/log/gitlab/reconfigure \
 gitlab/gitlab-ce:latest
 
 # 添加配置
