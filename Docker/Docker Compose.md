@@ -244,7 +244,7 @@ services:
 
 指定与服务的部署和运行有关的配置。只在 swarm 模式下才会有用。
 
-```
+```yaml
 version: "3.7"
 services:
   redis:
@@ -646,4 +646,53 @@ services:
     volumes:
       - "/localhost/postgres.sock:/var/run/postgres/postgres.sock"
       - "/localhost/data:/var/lib/postgresql/data"
+```
+
+# docker-compose v3版本写法
+
+首先手动创建网络, 指定子网, 否则会报错
+
+```shell
+docker network create --subnet 172.88.88.0/24 devops
+```
+
+
+
+```yaml
+version: '3'
+services:
+ accountmgr-api:
+   container_name: accountmgr-api
+   image: harbor.rxtd.com:8082/rxtd/accountmgr-api:10
+   ports:
+   - 38080:8080
+     networks:
+          default:
+     ipv4_address: 172.88.88.2
+   deploy:
+     resources:
+        limits:
+           cpus: '2'
+           memory: 2G
+        reservations:
+           cpus: '0.5'
+           memory: 200M
+networks:
+   default:
+     external:
+       name: devops
+```
+
+
+
+## 启动容器
+
+```shell
+docker-compose --compatibility -f gateway.yml up -d
+```
+
+由于做了资源限制, 并且没有使用swarm, 所以要加上`--compatibility`参数, 不然会报错
+
+```vhdl
+WARNING: Some services (web) use the 'deploy' key, which will be ignored. Compose does not support 'deploy' configuration - use docker stack deploy to deploy to a swarm.
 ```
