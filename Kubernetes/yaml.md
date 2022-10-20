@@ -231,7 +231,7 @@ spec:
 ##### 9、通过yaml文件创建Pod
 
 ```yaml
-#test-pod 
+# test-pod 
 apiVersion: v1 #指定api版本，此值必须在kubectl apiversion中   
 kind: Pod #指定创建资源的角色/类型   
 metadata: #资源的元数据/属性   
