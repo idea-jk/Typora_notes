@@ -83,6 +83,10 @@ docker rm : 删除容器
 docker logs -f --tail=30 容器ID
 # 查看容器mysql从2022年5月1日后的最新10条日志
 docker logs --since="2022-05-01" --tail=10 mysql
+# 导出日志
+docker logs 容器ID >> /路径/docker.log
+# 指定范围导出
+docker logs --since='2023-01-01T00:00:00' --until='2023-02-01T00:00:00'  容器id   >>  存储在宿主机的文件位置
 
 # 运行prune命令清理垃圾并释放资源
 docker system prune --volumes
