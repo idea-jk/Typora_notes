@@ -14,6 +14,11 @@ docker rmi -f 镜像ID
 docker tag 镜像ID mysql:v8.29
 # docker打包镜像
 docker save -o [要保存文件名] [需要保存的镜像名]
+# docker打包多个镜像
+docker save -o docker.tar mysql:v5.7 nginx:v2.6.1 mysql:v8.29
+# docker save 自定义打包文件存放位置
+dcoker save -o /root/docker-images/docker.tar mysql.tar
+
 # 载入容器
 docker import new-phpdev.tar phpdev:v1
 cat new-phpdev.tar | docker import new-phpdev/phpdev:v1
