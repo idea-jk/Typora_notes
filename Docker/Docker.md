@@ -67,7 +67,7 @@ docker restart 容器ID
 docker stop 容器ID
 # 强制停止容器
 docker kill 容器ID
-# 删除镜像
+# 删除容器
 docker rm 容器ID
 # docker 批量删除状态为退出的容器
 docker ps -a|grep "Exited"|awk '{print $1}'|xargs docker rm
