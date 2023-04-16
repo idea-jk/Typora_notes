@@ -67,12 +67,16 @@ docker restart 容器ID
 docker stop 容器ID
 # 强制停止容器
 docker kill 容器ID
-# 删除容器
+# 删除镜像
 docker rm 容器ID
-docker rm -rf 容器ID
 # docker 批量删除状态为退出的容器
 docker ps -a|grep "Exited"|awk '{print $1}'|xargs docker rm
 docker rm -v $(docker ps --all --quiet --filter 'status=exited')
+
+# 直接删除带none的镜像，直接报错了。提示先停止容器。
+docker stop $(docker ps -a | grep "Exited" | awk '{print $1 }') //停止容器
+docker rm $(docker ps -a | grep "Exited" | awk '{print $1 }') //删除容器
+docker rmi $(docker images | grep "none" | awk '{print $3}') //删除镜像
 
 # 除了 mysql、postgresql、kibana、elastic、mongo 除外的没有在运行的容器会被删除，xargs 的 - t 参数会打印出执行的命令
 docker ps -a|egrep -v 'mysql|post|kiban|elas|mongo'|awk '{print $1}'|xargs -t docker rm
