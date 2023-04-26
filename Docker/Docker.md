@@ -61,6 +61,8 @@ docker ps --filter status=paused
 docker start 容器ID
 # 启动所有的容器命令
 docker start $(docker ps -a|awk '{print$1}'|tail -n +2)
+# 修改容器为自启
+docker update --restart=always 容器ID
 # 重启容器
 docker restart 容器ID
 # 停止容器
