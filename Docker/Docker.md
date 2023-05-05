@@ -19,6 +19,12 @@ docker save -o docker.tar mysql:v5.7 nginx:v2.6.1 mysql:v8.29
 # docker save 自定义打包文件存放位置
 dcoker save -o /root/docker-images/docker.tar mysql.tar
 
+# 查看已下载的Docker镜像latest具体版本
+docker image inspect (docker image名称):latest|grep -i version
+
+# docker image inspect zabbix/zabbix-server-mysql:latest|grep -i version
+# "ZBX_VERSION=5.0.1"  ## zabbix-server的镜像版本为5.0.1
+
 # 载入容器
 docker import new-phpdev.tar phpdev:v1
 cat new-phpdev.tar | docker import new-phpdev/phpdev:v1
@@ -61,6 +67,8 @@ docker ps --filter status=paused
 docker start 容器ID
 # 启动所有的容器命令
 docker start $(docker ps -a|awk '{print$1}'|tail -n +2)
+# 修改容器为自启
+docker update --restart=always 容器ID
 # 重启容器
 docker restart 容器ID
 # 停止容器
