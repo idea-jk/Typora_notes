@@ -21,7 +21,6 @@ dcoker save -o /root/docker-images/docker.tar mysql.tar
 
 # 查看已下载的Docker镜像latest具体版本
 docker image inspect (docker image名称):latest|grep -i version
-
 # docker image inspect zabbix/zabbix-server-mysql:latest|grep -i version
 # "ZBX_VERSION=5.0.1"  ## zabbix-server的镜像版本为5.0.1
 
