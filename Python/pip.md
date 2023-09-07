@@ -6,6 +6,9 @@ pip install pandas
 # 卸载
 pip uninstall pandas
 
+# 更新pip
+python.exe -m pip install --upgrade pip
+
 # 导出 freeze
 pip freeze > requirement.txt
 

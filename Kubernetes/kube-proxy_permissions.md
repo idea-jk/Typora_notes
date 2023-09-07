@@ -4,8 +4,6 @@
 
 之前kube-proxy服务都是用admin集群证书，造成权限过大不安全，后续该问题，将在文档中修复
 
-请关注 https://github.com/cby-chen/Kubernetes
-
 
 
 ## 创建生成证书配置文件
