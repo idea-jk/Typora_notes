@@ -193,3 +193,63 @@ docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
 --sig-proxy=true           # 设置由代理接受并处理信号，但是SIGCHLD、SIGSTOP和SIGKILL不能被代理    
 ```
 
+#### Docker可视化web界面管理-Portainer部署记录
+
+**机器环境**
+
+```shell
+[root@docker-node1 ~]# cat /etc/redhat-release 
+CentOS Linux release 7.5.1804 (Core) 
+
+[root@docker-node1 ~]# ifconfig|grep 172.16.60
+        inet 172.16.60.213  netmask 255.255.255.0  broadcast 172.16.60.255
+
+[root@docker-node1 ~]# systemctl stop firewalld
+[root@docker-node1 ~]# systemctl disable firewalld
+[root@docker-node1 ~]# firewall-cmd --state
+not running
+```
+
+**查询当前有哪些Portainer镜像**
+
+```shell
+[root@centos-7 docker-images]# docker search portainer
+```
+
+![portainer](..\image\docker\portainer.png)
+
+**拉取Portainer镜像**
+
+```shell
+[root@centos-7 install_docker]# docker pull portainer/portainer
+Using default tag: latest
+latest: Pulling from portainer/portainer
+772227786281: Pull complete 
+96fd13befc87: Pull complete 
+0bad1d247b5b: Pull complete 
+b5d1b01b1d39: Pull complete 
+Digest: sha256:47b064434edf437badf7337e516e07f64477485c8ecc663ddabbe824b20c672d
+Status: Downloaded newer image for portainer/portainer:latest
+docker.io/portainer/portainer:latest
+```
+
+**运行Portainer,Portainer运行方式有以下两种方式:**
+
+**单机版运行** 如果仅有一个docker宿主机，则可使用单机版运行，运行以下命令就可以启动了:
+
+```shell
+[root@centos-7 install_docker]# docker images
+REPOSITORY            TAG       IMAGE ID       CREATED        SIZE
+portainer/portainer   latest    5f11582196a4   9 months ago   287MB
+[root@centos-7 install_docker]# docker run -it -d --name portainer -p 9000:9000 --restart=always -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer
+35300d2961a26c082d18c1fe53b51cad6743ef23631cc2530de01897b410751c
+[root@centos-7 install_docker]# docker ps -a 
+CONTAINER ID   IMAGE                 COMMAND        CREATED         STATUS         PORTS                                                           NAMES
+35300d2961a2   portainer/portainer   "/portainer"   7 seconds ago   Up 6 seconds   8000/tcp, 9443/tcp, 0.0.0.0:9000->9000/tcp, :::9000->9000/tcp   portainer
+[root@centos-7 install_docker]# firewall-cmd --add-port=9000/tcp --permanent && firewall-cmd --reload
+success
+success
+[root@centos-7 install_docker]# 
+```
+
+首次登陆需要注册用户，给admin用户设置密码。
