@@ -24,6 +24,10 @@ docker image inspect (docker image名称):latest|grep -i version
 # docker image inspect zabbix/zabbix-server-mysql:latest|grep -i version
 # "ZBX_VERSION=5.0.1"  ## zabbix-server的镜像版本为5.0.1
 
+# 查看一个容器的详情
+docker inspect 容器ID | more
+docker inspect 容器ID | grep -i version
+
 # 载入容器
 docker import new-phpdev.tar phpdev:v1
 cat new-phpdev.tar | docker import new-phpdev/phpdev:v1
