@@ -85,9 +85,9 @@ docker ps -a|grep "Exited"|awk '{print $1}'|xargs docker rm
 docker rm -v $(docker ps --all --quiet --filter 'status=exited')
 
 # Docker容器中文件与本地相互复制拷贝
-# 本地到服务器
+# 本地到容器
 docker cp 本地路径 容器id或者容器名字:容器内路径
-# 服务器到本地
+# 容器到本地
 docker cp 容器id或者容器名字:容器内路径 本地路径
 
 # 直接删除带none的镜像，直接报错了。提示先停止容器。
