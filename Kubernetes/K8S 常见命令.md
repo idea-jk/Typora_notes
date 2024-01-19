@@ -5,7 +5,7 @@
 3.  列出集群中的所有节点：`kubectl get nodes`
 4.  查看一个具体的节点详情：`kubectl describe node <node-name>`
 5.  列出所有命名空间：`kubectl get namespaces`
-6. \6. 列出所有命名空间中的所有 pod：`kubectl get pods --all-namespaces`
+6.  列出所有命名空间中的所有 pod：`kubectl get pods --all-namespaces`
 
 **Pod 诊断：**
 
