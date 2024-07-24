@@ -1,5 +1,7 @@
 ## Docker命令
 
+##### Docker镜像
+
 ```shell
 # 显示所有镜像名
 docker images
@@ -8,8 +10,6 @@ docker image ls
 docker search 镜像名字
 # 下载镜像
 docker pull 镜像名:版本(latest，5.7)
-# 删除镜像
-docker rmi -f 镜像ID
 # 修改镜tag名称
 docker tag 镜像ID mysql:v8.29
 # docker打包镜像
@@ -18,33 +18,47 @@ docker save -o [要保存文件名] [需要保存的镜像名]
 docker save -o docker.tar mysql:v5.7 nginx:v2.6.1 mysql:v8.29
 # docker save 自定义打包文件存放位置
 dcoker save -o /root/docker-images/docker.tar mysql.tar
+# 删除镜像
+docker rmi -f 镜像ID
 
 # 查看已下载的Docker镜像latest具体版本
 docker image inspect (docker image名称):latest|grep -i version
 # docker image inspect zabbix/zabbix-server-mysql:latest|grep -i version
 # "ZBX_VERSION=5.0.1"  ## zabbix-server的镜像版本为5.0.1
 
-# 查看一个容器的详情
-docker inspect 容器ID | more
-docker inspect 容器ID | grep -i version
-
-# 载入容器
-docker import new-phpdev.tar phpdev:v1
-cat new-phpdev.tar | docker import new-phpdev/phpdev:v1
-
-docker load --import [文件名]
-docker load < [文件名]
+# docker查看镜像占用空间 -v:列出详情 
+docker system df -v
 
 # 使用sed 拼接命令 借助管道符 交给bash（注意修改成你对应的文件后缀）
 ls *.tat|awk '{print $NF}'|sed -r 's#(.*)#sudo docker load -i \1#' |bash
 
-# docker查看镜像占用空间 -v:列出详情 
-docker system df -v
 # docker查看网络列表
 docker network ls
 # 查看网络详情格式：docker network inspect [OPTIONS] NETWORK [NETWORK...]
 docker network inspect 204dc15aaeec
 
+# 直接删除带none的镜像，直接报错了。提示先停止容器。
+docker stop $(docker ps -a | grep "Exited" | awk '{print $1 }') //停止容器
+docker rm $(docker ps -a | grep "Exited" | awk '{print $1 }') //删除容器
+docker rmi $(docker images | grep "none" | awk '{print $3}') //删除镜像
+
+# 运行prune命令清理垃圾并释放资源
+docker system prune --volumes
+docker images prune -a
+
+# 除了 mysql、postgresql、kibana、elastic、mongo 除外的没有在运行的容器会被删除，xargs 的 - t 参数会打印出执行的命令
+docker ps -a|egrep -v 'mysql|post|kiban|elas|mongo'|awk '{print $1}'|xargs -t docker rm
+# 命令解析
+docker ps -a : 列出所有的docker 容器
+grep “Exited” : 过滤出所有状态为退出的容器
+awk ‘{print $1}’ : 以空格为分割符，打印出第一列的信息
+xargs : 将管道传递过来的参数进行处理，依次传递给后面的命令
+docker rm : 删除容器
+```
+
+##### Docker容器
+
+```shell
 # 显示当前正在运行的容器
 docker ps
 # 显示所有容器
@@ -65,6 +79,22 @@ docker ps -a --filter 'exited=0'
 docker ps --filter status=running      // docker ps -a -f status=running
 docker ps --filter status=paused
 
+# 查看一个容器的详情
+docker inspect 容器ID | more
+docker inspect 容器ID | grep -i version
+
+# 载入容器
+docker import new-phpdev.tar phpdev:v1
+cat new-phpdev.tar | docker import new-phpdev/phpdev:v1
+
+docker load --import [文件名]
+docker load < [文件名]
+
+# 将容器打包为镜像
+docker commit <容器ID或名称> <镜像名称>:<标签>
+
+# 例如，如果容器的ID是089464e100a8，我们想将其保存为名为my_image的镜像，并打上latest标签，则可以使用以下命令：
+docker commit 089464e100a8 my_image:latest
 
 # 启动容器
 docker start 容器ID
@@ -90,21 +120,6 @@ docker cp 本地路径 容器id或者容器名字:容器内路径
 # 容器到本地
 docker cp 容器id或者容器名字:容器内路径 本地路径
 
-# 直接删除带none的镜像，直接报错了。提示先停止容器。
-docker stop $(docker ps -a | grep "Exited" | awk '{print $1 }') //停止容器
-docker rm $(docker ps -a | grep "Exited" | awk '{print $1 }') //删除容器
-docker rmi $(docker images | grep "none" | awk '{print $3}') //删除镜像
-
-# 除了 mysql、postgresql、kibana、elastic、mongo 除外的没有在运行的容器会被删除，xargs 的 - t 参数会打印出执行的命令
-docker ps -a|egrep -v 'mysql|post|kiban|elas|mongo'|awk '{print $1}'|xargs -t docker rm
-# 命令解析
-docker ps -a : 列出所有的docker 容器
-grep “Exited” : 过滤出所有状态为退出的容器
-awk ‘{print $1}’ : 以空格为分割符，打印出第一列的信息
-xargs : 将管道传递过来的参数进行处理，依次传递给后面的命令
-docker rm : 删除容器
-
-
 # 查看容器日志，-f 跟踪日志输出，--tail=30 仅列出最新的30条容器日志
 docker logs -f --tail=30 容器ID
 # 查看容器mysql从2022年5月1日后的最新10条日志
@@ -113,10 +128,6 @@ docker logs --since="2022-05-01" --tail=10 mysql
 docker logs 容器ID >> /路径/docker.log
 # 指定范围导出
 docker logs --since='2023-01-01T00:00:00' --until='2023-02-01T00:00:00'  容器id   >>  存储在宿主机的文件位置
-
-# 运行prune命令清理垃圾并释放资源
-docker system prune --volumes
-docker images prune -a
 
 # 查看容器内进程
 docker top 容器ID
@@ -156,6 +167,8 @@ docker info
 # 查看docker磁盘占用情况
 docker system df
 ```
+
+##### Docker run
 
 ```shell
 docker run -it nginx:latest /bin/bash
@@ -203,22 +216,7 @@ docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
 --sig-proxy=true           # 设置由代理接受并处理信号，但是SIGCHLD、SIGSTOP和SIGKILL不能被代理    
 ```
 
-#### Docker可视化web界面管理-Portainer部署记录
-
-**机器环境**
-
-```shell
-[root@docker-node1 ~]# cat /etc/redhat-release 
-CentOS Linux release 7.5.1804 (Core) 
-
-[root@docker-node1 ~]# ifconfig|grep 172.16.60
-        inet 172.16.60.213  netmask 255.255.255.0  broadcast 172.16.60.255
-
-[root@docker-node1 ~]# systemctl stop firewalld
-[root@docker-node1 ~]# systemctl disable firewalld
-[root@docker-node1 ~]# firewall-cmd --state
-not running
-```
+#### Docker可视化web界面管理-Portainer部署
 
 **查询当前有哪些Portainer镜像**
 
@@ -243,9 +241,9 @@ Status: Downloaded newer image for portainer/portainer:latest
 docker.io/portainer/portainer:latest
 ```
 
-**运行Portainer,Portainer运行方式有以下两种方式:**
+**Portainer运行方式:**
 
-**单机版运行** 如果仅有一个docker宿主机，则可使用单机版运行，运行以下命令就可以启动了:
+**单机版运行** -- 运行以下命令就可以启动了:
 
 ```shell
 [root@centos-7 install_docker]# docker images
@@ -265,4 +263,4 @@ success
 [root@centos-7 install_docker]# 
 ```
 
-首次登陆需要注册用户，给admin用户设置密码。
+##### *首次登陆需要注册用户，给admin用户设置密码。*
