@@ -1,5 +1,7 @@
 ```shell
+# 下载镜像
 docker pull gitlab/gitlab-ce
+# 加载镜像
 docker load < gitlab_gitlab-ce.tar
 mkdir -pv /data/gitlab/config /data/gitlab/logs /data/gitlab/data
 
