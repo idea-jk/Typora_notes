@@ -133,6 +133,7 @@ docker logs --since='2023-01-01T00:00:00' --until='2023-02-01T00:00:00'  容器i
 docker top 容器ID
 # 进入容器
 docker exec -it 容器ID /bin/bash
+docker exec -it 容器ID /bin/sh
 
 # docker容器时间同步物理机时间
 # 运行时添加如下参数
