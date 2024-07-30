@@ -257,3 +257,39 @@ wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.163.com/.help/CentOS7-B
 yum clean all && yum makecache
 ```
 
+#### du
+
+```shell
+du -sh : 查看当前目录总共占的容量，而不单独列出各子项占用的容量；
+du -sh ./* : 单独列出各子项占用的容量。
+
+# 以上命令需要在root权限下操作，或者在命令行前加sudo命令也可以。
+
+# 用到了两个参数来控制命令du：
+
+-h：以K，M，G为单位，提高信息的可读性
+-s：仅显示总计
+
+# 查看磁盘剩余空间
+# 利用df命令
+
+df -hl [目录名] ：查看磁盘剩余空间
+
+其他
+du命令的一些常用参数:
+-a或-all 显示目录中个别文件的大小
+-b或-bytes 显示目录或文件大小时，以byte为单位
+-c或–total 除了显示个别目录或文件的大小外，同时也显示所有目录或文件的总和
+-D或–dereference-args 显示指定符号连接的源文件大小
+-h或–human-readable 以K，M，G为单位，提高信息的可读性
+-k或–kilobytes 以1024 bytes为单位
+-l或–count-links 重复计算硬件连接的文件
+-L或–dereference 显示选项中所指定符号连接的源文件大小
+-m或–megabytes 以1MB为单位
+-s或–summarize 仅显示总计
+-S或–separate-dirs 显示个别目录的大小时，并不含其子目录的大小
+-X<文件>或–exclude-from=<文件>
+–exclude=<目录或文件> 略过指定的目录或文件
+–max-depth=<目录层数> 超过指定层数的目录后，予以忽略
+```
+
