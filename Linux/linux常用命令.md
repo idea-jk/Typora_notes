@@ -13,6 +13,21 @@ mkdir -p father/{child1,child2,child3}
 mkdir -p {father1,father2}/{child1,child2,child3}
 ```
 
+##### 复制与移动命令
+
+```shell
+cp:复制文件或目录
+# 例: cp -rp ./mydir /home
+-r 代表递归复制目录下的文件
+-p 代表不改变原有属性，例如权限以上命令意为：把当前目录下mydir目录复制到/home目录下
+
+mv:移动文件或重命名
+# 例: mv file ./home 把当前目录下的file文件移动到home目录下
+# 例: mv file file_back 把当前目录的file文件重命名为file_back
+```
+
+
+
 ## 搜索命令
 
 #### find
@@ -22,7 +37,7 @@ mkdir -p {father1,father2}/{child1,child2,child3}
 
 # find 【搜索目录】【-name或者-iname】【搜索字符】：-name和-iname的区别一个区分大小写，一个不区分大小写
 # init精准搜索，名字必须为 init 才能搜索的到
-find /etc -name
+find /etc -name init
 
 # 精准搜索，名字必须为 init或者有字母大写也能搜索的到
 find /etc -iname init
