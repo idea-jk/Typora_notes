@@ -18,6 +18,11 @@ docker save -o [要保存文件名] [需要保存的镜像名]
 docker save -o docker.tar mysql:v5.7 nginx:v2.6.1 mysql:v8.29
 # docker save 自定义打包文件存放位置
 dcoker save -o /root/docker-images/docker.tar mysql.tar
+tar -zcvf mysql.tar.gz mysql.tar
+
+# docker打包并使用gzip压缩
+docker save mysql:v5.7 | gzip > mysql.tar.gz
+
 # 删除镜像
 docker rmi -f 镜像ID
 
