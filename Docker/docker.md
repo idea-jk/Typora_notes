@@ -22,6 +22,8 @@ tar -zcvf mysql.tar.gz mysql.tar
 
 # docker打包并使用gzip压缩
 docker save mysql:v5.7 | gzip > mysql.tar.gz
+# docker打包并使用gzip压缩到指定目录
+docker save mysql:v5.7 | gzip > /root/mysql/mysql.tar.gz
 
 # 删除镜像
 docker rmi -f 镜像ID
