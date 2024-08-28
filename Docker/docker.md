@@ -174,6 +174,13 @@ systemctl restart docker
 docker info
 # 查看docker磁盘占用情况
 docker system df
+
+# 查看容器状态（可以用来查看docker容器的状态（cpu、内存、磁盘IO等））
+# 查看所有运行的容器
+docker stats
+
+# 查看指定运行的容器
+docker stats d6d71fe0e04f
 ```
 
 ##### Docker run
