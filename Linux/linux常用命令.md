@@ -308,3 +308,9 @@ du命令的一些常用参数:
 –max-depth=<目录层数> 超过指定层数的目录后，予以忽略
 ```
 
+```shell
+# 查询到本机/本网络所在的 IP 地址
+curl ping0.cc/geo
+curl ipinfo.io
+```
+
