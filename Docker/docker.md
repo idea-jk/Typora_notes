@@ -186,6 +186,19 @@ docker stats d6d71fe0e04f
 ##### Docker run
 
 ```shell
+# 限制内存使用
+# 使用--memory或-m标志来指定容器的最大内存使用量。例如，如果你想要限制一个容器最多只能使用512MB的内存
+docker run -d --name some-container -m 512M some-image
+
+# 设置CPU核心数量 如果你想直接指定容器可以访问的CPU核心数量，可以使用--cpus参数。例如，分配0.5个CPU核心给容器
+docker run -d --name some-container --cpus 0.5 some-image
+
+# 指定可用的CPU核心 可以使用--cpuset-cpus来指定容器可以使用的实际CPU核心列表。例如，只允许容器使用第0号和第1号CPU核心：
+docker run -d --name some-container --cpuset-cpus 0,1 some-image
+
+docker run -d --name some-container --cpus 0.5 -m 512M some-image
+
+
 docker run -it nginx:latest /bin/bash
 
 docker run [OPTIONS] IMAGE [COMMAND] [ARG...]    
