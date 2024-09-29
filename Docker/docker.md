@@ -61,7 +61,84 @@ grep “Exited” : 过滤出所有状态为退出的容器
 awk ‘{print $1}’ : 以空格为分割符，打印出第一列的信息
 xargs : 将管道传递过来的参数进行处理，依次传递给后面的命令
 docker rm : 删除容器
+
 ```
+
+##### Docker镜像构建
+
+```shell
+# 语法
+docker build [OPTIONS] PATH | URL | -
+
+PATH: 包含 Dockerfile 的目录路径或 .（当前目录）。
+URL: 指向包含 Dockerfile 的远程存储库地址（如 Git 仓库）。
+-: 从标准输入读取 Dockerfile。
+常用选项：
+
+-t, --tag: 为构建的镜像指定名称和标签。
+-f, --file: 指定 Dockerfile 的路径（默认是 PATH 下的 Dockerfile）。
+--build-arg: 设置构建参数。
+--no-cache: 不使用缓存层构建镜像。
+--rm: 构建成功后删除中间容器（默认开启）。
+--force-rm: 无论构建成功与否，一律删除中间容器。
+--pull: 始终尝试从注册表拉取最新的基础镜像。
+更多选项说明：
+
+--build-arg=[]: 设置构建镜像时的变量。
+--cpu-shares: 设置 CPU 使用权重。
+--cpu-period: 限制 CPU CFS 周期。
+--cpu-quota: 限制 CPU CFS 配额。
+--cpuset-cpus: 指定可使用的 CPU ID。
+--cpuset-mems: 指定可使用的内存节点 ID。
+--disable-content-trust: 忽略内容信任验证（默认启用）。
+-f: 指定 Dockerfile 的路径。
+--force-rm: 强制在构建过程中删除中间容器。
+--isolation: 使用指定的容器隔离技术。
+--label=[]: 设置镜像的元数据。
+-m: 设置内存的最大值。
+--memory-swap: 设置交换空间的最大值（内存 + 交换空间），-1 表示不限制交换空间。
+--no-cache: 构建镜像时不使用缓存。
+--pull: 尝试拉取基础镜像的最新版本。
+--quiet, -q: 安静模式，构建成功后只输出镜像 ID。
+--rm: 构建成功后删除中间容器（默认启用）。
+--shm-size: 设置 /dev/shm 的大小，默认值为 64M。
+--ulimit: 设置 Ulimit 配置。
+--squash: 将 Dockerfile 中所有步骤压缩为一层。
+--tag, -t: 为镜像指定名称和标签，格式为 name:tag 或 name；可以在一次构建中为一个镜像设置多个标签。
+--network: 在构建期间设置 RUN 指令的网络模式，默认值为 default。
+
+# 1、构建镜像
+# 这会从当前目录读取 Dockerfile 并构建一个名为 myimage:latest 的镜像。
+docker build -t myimage:latest .
+
+# 2、指定 Dockerfile 路径
+# 这会从 /path/to/ 目录读取 Dockerfile 并构建一个名为 myimage:latest 的镜像。
+docker build -f /path/to/Dockerfile -t myimage:latest .
+
+# 3、设置构建参数
+# 这会在构建过程中使用 HTTP_PROXY 环境变量。
+docker build --build-arg HTTP_PROXY=http://proxy.example.com -t myimage:latest .
+
+# 4、不使用缓存层构建镜像
+# 这会在构建镜像时忽略所有缓存层，确保每一步都重新执行。
+docker build --no-cache -t myimage:latest .
+
+
+# 实例 - 使用 Dockerfile 构建镜像
+# 1、创建 Dockerfile，内容如下：
+
+# Dockerfile 示例
+FROM ubuntu:20.04
+LABEL maintainer="yourname@example.com"
+RUN apt-get update && apt-get install -y nginx
+COPY index.html /var/www/html/index.html
+CMD ["nginx", "-g", "daemon off;"]
+# 2、构建镜像
+
+docker build -t mynginx:latest .
+```
+
+
 
 ##### Docker容器
 
