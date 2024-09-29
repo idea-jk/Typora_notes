@@ -136,6 +136,52 @@ CMD ["nginx", "-g", "daemon off;"]
 # 2、构建镜像
 
 docker build -t mynginx:latest .
+
+
+# docker buildx build 构建linux/arm64架构镜像
+docker buildx build --platform linux/arm64,linux/amd64 -f /root/HivisionIDPhotos/Dockerfile -t hivision_idphotos:1.2.9 .
+
+# docker buildx build 构建linux/amd64架构镜像
+docker buildx build --platform linux/arm64 -f /root/HivisionIDPhotos/Dockerfile -t hivision_idphotos:1.2.9 .
+
+
+-------------------------------------------------------------------------------------------------------
+# docker buildx 离线安装
+mkdir -pv /usr/local/lib/docker/cli-plugins
+mv buildx-v0.17.1.linux-amd64 /usr/local/lib/docker/cli-plugins
+chmod +x /usr/local/lib/docker/cli-plugins/docker-buildx
+
+# 如果想让其在系统级别可用，可将其拷贝至如下路径：
+/usr/local/lib/docker/cli-plugins OR /usr/local/libexec/docker/cli-plugins
+/usr/lib/docker/cli-plugins OR /usr/libexec/docker/cli-plugins
+-------------------------------------------------------------------------------------------------------
+# 安装模拟器的主要作用是让buildx支持跨CPU架构编译。
+# 模拟器对应的仓库名称是：tonistiigi/binfmt:latest ，如果你的环境能联网，使用一下命令：
+docker run --privileged --rm tonistiigi/binfmt --install all
+
+# 如果你的环境不能联网，则需先在外网环境下载好镜像，导入内网之后，再安装：
+# 外网下载镜像，注意（如果你的内网环境机器是arm架构，就下载arm版本，如果你的内网环境机器是amd架构，就下载amd版本；这里我下载的是arm版本）
+docker pull tonistiigi/binfmt:latest@sha256:01882a96113f38b1928a5797c52f7eaa7e39acf6cc15ec541c6e8428f3c2347d
+# 导出镜像
+docker save -o tonistiigi_binfmt_arm64.tar f1d8c13be37e
+# 在内网机器执行如下命令，导入镜像
+docker load -i tonistiigi_binfmt_arm64.tar
+# 安装模拟器
+docker run --privileged --rm tonistiigi/binfmt --install all
+
+# 验证是否安装成功
+docker buildx ls 
+default       docker
+  default     default    running   linux/amd64, linux/arm64, linux/riscv64, linux/ppc64le, linux/s390x, linux/386, linux/arm/v7, linux/arm/v6
+
+# 验证arm机器上的amd模拟器是否安装成功，则执行如下命令，输出结果包含enable即可
+cat /proc/sys/fs/binfmt_misc/qemu-x86_64
+enabled
+
+# 如果你是amd机器，需要验证arm模拟器是否安装成功，则执行如下命令，输出结果包含enable即可
+cat /proc/sys/fs/binfmt_misc/qemu-aarch64
+enabled
+
 ```
 
 
