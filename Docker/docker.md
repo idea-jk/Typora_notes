@@ -148,7 +148,7 @@ docker buildx build --platform linux/arm64 -f /root/HivisionIDPhotos/Dockerfile 
 -------------------------------------------------------------------------------------------------------
 # docker buildx 离线安装
 mkdir -pv /usr/local/lib/docker/cli-plugins
-mv buildx-v0.17.1.linux-amd64 /usr/local/lib/docker/cli-plugins
+mv buildx-v0.17.1.linux-amd64 /usr/local/lib/docker/cli-plugins/docker-buildx
 chmod +x /usr/local/lib/docker/cli-plugins/docker-buildx
 
 # 如果想让其在系统级别可用，可将其拷贝至如下路径：
