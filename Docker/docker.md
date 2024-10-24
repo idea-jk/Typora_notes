@@ -209,6 +209,9 @@ docker ps -a --filter 'exited=0'
 docker ps --filter status=running      // docker ps -a -f status=running
 docker ps --filter status=paused
 
+# 查看容器大小,输出结果中SIZE列显示了每个容器的磁盘使用情况
+docker ps -s
+
 # 查看一个容器的详情
 docker inspect 容器ID | more
 docker inspect 容器ID | grep -i version
