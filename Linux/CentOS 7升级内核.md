@@ -29,6 +29,7 @@ grub2-set-default 'CentOS Linux (5.18.2-1.el7.elrepo.x86_64) 7 (Core)'
 # 重新创建内核配置
 grub2-mkconfig -o /boot/grub2/grub.cfg
 
+# 重启系统
 reboot
 
 # 查看启动内核
@@ -58,6 +59,7 @@ grub2-set-default 'CentOS Linux (5.18.2-1.el7.elrepo.x86_64) 7 (Core)'
 # 重新创建内核配置
 grub2-mkconfig -o /boot/grub2/grub.cfg
 
+# 重启系统
 reboot
 
 # 查看启动内核
@@ -77,11 +79,6 @@ uname -r
 
 rpm -qa | grep kernel
 
-# 这将列出包括当前正在使用的内核在内的所有内核版本。
-
-# 确定要删除的内核
-# 确保不要删除当前正在使用的内核版本。通常，安全的做法是至少保留一个或两个旧内核作为备用。
-
 # 删除多余的内核
 # 使用 yum 命令来删除不再需要的内核版本。例如，如果你要删除 kernel-ml-6.9.7-1.el7.elrepo.x86_64 这个版本，可以运行：
 
@@ -95,6 +92,6 @@ yum remove kernel-ml-6.9.7-1.el7.elrepo.x86_64
 grub2-mkconfig -o /boot/grub2/grub.cfg
 
 # 重启系统
-（可选）如果你确信没有删除正在使用的内核，并且所有操作都已完成，可以选择重启系统以应用更改
+reboot
 ```
 
