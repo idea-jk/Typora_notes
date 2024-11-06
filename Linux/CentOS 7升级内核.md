@@ -30,7 +30,7 @@ grub2-set-default 'CentOS Linux (5.18.2-1.el7.elrepo.x86_64) 7 (Core)'
 grub2-mkconfig -o /boot/grub2/grub.cfg
 
 # 重启系统
-reboot
+init 6
 
 # 查看启动内核
 grub2-editenv list
@@ -60,7 +60,7 @@ grub2-set-default 'CentOS Linux (5.18.2-1.el7.elrepo.x86_64) 7 (Core)'
 grub2-mkconfig -o /boot/grub2/grub.cfg
 
 # 重启系统
-reboot
+init 6
 
 # 查看启动内核
 grub2-editenv list
@@ -92,6 +92,6 @@ yum remove kernel-ml-6.9.7-1.el7.elrepo.x86_64
 grub2-mkconfig -o /boot/grub2/grub.cfg
 
 # 重启系统
-reboot
+init 6
 ```
 
