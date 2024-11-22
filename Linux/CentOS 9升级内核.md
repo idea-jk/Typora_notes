@@ -40,7 +40,7 @@ rpm -Uvh kernel-ml-6.11.6-1.el9.elrepo.x86_64.rpm
 rpm -qa | grep kernel
 
 # 重启系统
-reboot
+init 6
 ```
 
 ## 删除多余内核
