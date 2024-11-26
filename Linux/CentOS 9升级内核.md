@@ -13,10 +13,12 @@ yum install https://www.elrepo.org/elrepo-release-9.el9.elrepo.noarch.rpm
 # 安装最新内核
 yum install --enablerepo=elrepo-kernel kernel-ml
 
+yum install -y --downloadonly --downloaddir=/root/elrepo-kernel_kernel-ml --enablerepo=elrepo-kernel kernel-ml
+
 # 内核包名：
-kernel-ml-core-6.11.6-1.el9.elrepo.x86_64
-kernel-ml-modules-6.11.6-1.el9.elrepo.x86_64
-kernel-ml-6.11.6-1.el9.elrepo.x86_64
+kernel-ml-core-6.12.1-1.el9.elrepo.x86_64
+kernel-ml-modules-6.12.1-1.el9.elrepo.x86_64
+kernel-ml-6.12.1-1.el9.elrepo.x86_64
 
 # 查看系统内部有多少个内核
 rpm -qa | grep kernel
@@ -32,9 +34,9 @@ init 6
 cat /etc/redhat-release
 
 # rpm包地址
-rpm -Uvh kernel-ml-core-6.11.6-1.el9.elrepo.x86_64.rpm
-rpm -Uvh kernel-ml-modules-6.11.6-1.el9.elrepo.x86_64.rpm
-rpm -Uvh kernel-ml-6.11.6-1.el9.elrepo.x86_64.rpm
+rpm -Uvh kernel-ml-core-6.12.1-1.el9.elrepo.x86_64.rpm
+rpm -Uvh kernel-ml-modules-6.12.1-1.el9.elrepo.x86_64.rpm
+rpm -Uvh kernel-ml-6.12.1-1.el9.elrepo.x86_64.rpm
 
 # 查看系统内部有多少个内核
 rpm -qa | grep kernel
@@ -57,9 +59,10 @@ uname -r
 rpm -qa | grep kernel
 
 # 删除多余的内核
-# 使用 yum 命令来删除不再需要的内核版本。例如，如果你要删除 kernel-ml-core-6.11.6-1.el9.elrepo.x86_64 这个版本，可以运行：
+# 使用 yum 命令来删除不再需要的内核版本。例如，如果你要删除 kernel-ml-core-6.11.9-1.el9.elrepo.x86_64 这个版本，可以运行：
 
-yum remove kernel-ml-core-6.11.6-1.el9.elrepo.x86_64
+yum remove kernel-ml-core-6.11.9-1.el9.elrepo.x86_64 -y
+yum remove kernel-tools-6.11.9-1.el9.elrepo.x86_64 -y
 
 
 # 重启系统
