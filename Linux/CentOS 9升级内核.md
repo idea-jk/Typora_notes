@@ -82,3 +82,19 @@ init 6
 init 6比较优雅 reboot比较暴力
 ```
 
+## yum源更新命令
+
+```shell
+#清空dnf缓存
+dnf clean all
+
+dnf makecache
+
+dnf -y update
+
+#列出所有软件名称
+dnf list all
+#列出已经安装的软件名称
+dnf list installed
+```
+
