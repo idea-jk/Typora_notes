@@ -59,11 +59,9 @@ uname -r
 rpm -qa | grep kernel
 
 # 删除多余的内核
-# 使用 yum 命令来删除不再需要的内核版本。例如，如果你要删除 kernel-ml-core-6.11.9-1.el9.elrepo.x86_64 这个版本，可以运行：
-
-yum remove kernel-ml-core-6.11.9-1.el9.elrepo.x86_64 -y
-yum remove kernel-tools-6.11.9-1.el9.elrepo.x86_64 -y
-
+# 使用 yum 命令来删除不再需要的内核版本。例如，如果你要删除 kernel-ml-core-5.14.0-522.el9.elrepo.x86_64 这个版本，可以运行：
+yum remove -y kernel-core-5.14.0-522.el9.x86_64
+yum remove -y kernel-tools-5.14.0-522.el9.x86_64
 
 # 重启系统
 init 6
