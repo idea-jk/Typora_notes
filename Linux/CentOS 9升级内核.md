@@ -6,9 +6,13 @@
 # 查看系统版本
 cat /etc/redhat-release
 
+# 导入 ELRepo 仓库
+# 访问 ELRepo 官方网站 获取仓库的安装方式。执行以下命令导入 ELRepo 仓库：导入公钥，用于校验软件包
 rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
 
+# 导入 yum 源，用于从该仓库下载软件包
 yum install https://www.elrepo.org/elrepo-release-9.el9.elrepo.noarch.rpm
+
 
 # 安装最新内核
 yum install --enablerepo=elrepo-kernel kernel-ml
