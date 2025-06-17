@@ -52,3 +52,58 @@ semodule -i openlist.pp
 semodule -l | grep openlist
 ```
 
+------
+
+### 移除在 CentOS 9 上安装的自定义 SELinux 策略模块
+
+### 1. 列出已安装的 SELinux 模块
+
+```bash
+semodule -l
+```
+
+在输出中查找您的自定义模块名称（例如 `openlist`）
+
+### 2. 移除指定模块
+
+```bash
+semodule -r openlist
+```
+
+或使用完整名称（如果包含版本号）：
+
+```bash
+semodule -r openlist 1.0
+```
+
+### 3. 验证移除结果
+
+```bash
+semodule -l | grep openlist
+```
+
+如果没有任何输出，表示模块已成功移除
+
+### 额外步骤（如果需要）
+
+#### 如果忘记模块名称
+
+查看所有自定义模块：
+
+```bash
+semodule -l | grep -v "^base\|^abrt\|^accounts\|^acct\|^admin\|^alsa\|^apache\|^application\|^auth\|^automount\|^avahi\|^backup"
+```
+
+#### 删除策略文件源文件（可选）
+
+```bash
+rm -i /etc/selinux/local/openlist.*
+```
+
+#### 重置文件上下文
+
+如果您之前修改了文件标签：
+
+```bash
+restore
+```
