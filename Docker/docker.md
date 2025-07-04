@@ -1,29 +1,39 @@
 ## Docker命令
 
-##### Docker镜像
+**基本指令**
+
+| 命令           | 描述               | 示例              |
+| -------------- | ------------------ | ----------------- |
+| dcoker network | 管理Docker网络     | dcoker network ls |
+| docker volume  | 管理Docker卷       | docker volume ls  |
+| docker info    | 显示Docker系统信息 | docker info       |
+| docker version | 显示Docker版本信息 | docker version    |
+
+**镜像管理指令**
+
+| 命令           | 描述                       | 示例                                                      |
+| -------------- | -------------------------- | --------------------------------------------------------- |
+| docker images  | 列出本地存储的镜像         | docker images                                             |
+| docker pull    | 从仓库拉取一个镜像         | docker pull ubuntu                                        |
+| docker push    | 将本地镜像推送到镜像仓库   | docker push ubuntu/ubuntu:tag                             |
+| docker rmi     | 删除一个或多个镜像         | docker rmi [IMAGE_ID]                                     |
+| dockerbuild    | 从Dockerfile构建镜像       | docker build -t my-image:tag .                            |
+| docker history | 显示镜像的历史信息         | docker history myimage                                    |
+| docker inspect | 获取容器或镜像的详细信息   | docker inspect [CONTAINER_ID/IMAGE_ID]                    |
+| docker tag     | 为镜像添加一个新的标签     | docker tag ubuntu:18.04 myubuntu:latest                   |
+| docker save    | 将镜像保存为tar归档文件    | docker save myimage > myimage.tar                         |
+| docker load    | 从tar归档文件加载镜像      | docker load < myimage.tar<br />docker load -i myimage.tar |
+| docker import  | 从归档文件创建镜像         | docker import mycontainer.tar myimage                     |
+| docker commit  | 从修改过的容器创建新的镜像 | docker commit [CONTAINER_ID] new-image                    |
+| docker diff    | 显示容器文件系统的更改     | docker diff mycontainer                                   |
+| docker search  | 在Docker Hub搜索镜像       | docker search ubuntu                                      |
 
 ```shell
-# 显示所有镜像名
-docker images
-docker image ls
-# 查询镜像
-docker search 镜像名字
-# 下载镜像
-docker pull 镜像名:版本(latest，5.7)
-# 修改镜tag名称
-docker tag 镜像ID mysql:v8.29
-# docker打包镜像
 docker save -o [要保存文件名] [需要保存的镜像名]
 # docker打包多个镜像
 docker save -o docker.tar mysql:v5.7 nginx:v2.6.1 mysql:v8.29
 # docker save 自定义打包文件存放位置
 dcoker save -o /root/docker-images/docker.tar mysql.tar
-tar -zcvf mysql.tar.gz mysql.tar
-
-# docker打包并使用gzip压缩
-docker save mysql:v5.7 | gzip > mysql.tar.gz
-# docker打包并使用gzip压缩到指定目录
-docker save mysql:v5.7 | gzip > /root/mysql/mysql.tar.gz
 
 # 删除镜像
 docker rmi -f 镜像ID
@@ -61,138 +71,27 @@ grep “Exited” : 过滤出所有状态为退出的容器
 awk ‘{print $1}’ : 以空格为分割符，打印出第一列的信息
 xargs : 将管道传递过来的参数进行处理，依次传递给后面的命令
 docker rm : 删除容器
-
 ```
 
-##### Docker镜像构建
+**容器管理命令**
+
+| 命令           | 描述                                  | 示例                                         |
+| -------------- | ------------------------------------- | -------------------------------------------- |
+| docker run     | 创建并启动一个容器                    | docker run -it ubuntu /bin/bash              |
+| docker ps      | 列出当前运行的容器                    | docker ps                                    |
+| docker ps -a   | 列出所有容器，包括未运行的            | docker ps -a                                 |
+| docker stop    | 停止一个运行中容器                    | docker stop [CONTAINER_ID]                   |
+| docker start   | 启动一个已停止的容器                  | docker start [CONTAINER_ID]                  |
+| docker restart | 重启容器                              | docker restart [CONTAINER_ID]                |
+| docker kill    | 立即终止容器的运行                    | docker kill [CONTAINER_ID]                   |
+| dcoker rm      | 删除一个或多个容器                    | docker rm [CONTAINER_ID]                     |
+| docker exec    | 在运行的容器中执行命令                | docker exec -it [CONTAINER_ID] bash          |
+| docker attach  | 连接到正在运行的容器                  | docker attach [CONTAINER_ID]                 |
+| docker cp      | 从容器中复制文件/目录到主机，反之亦然 | docker cp [CONTAINER_ID]:/path/to/file /dest |
+| docker logs    | 获取容器日志                          | docker logs [CONTAINER_ID]                   |
+| docker inspect | 获取容器的详细信息                    | docker inspect [CONTAINER_ID]                |
 
 ```shell
-# 语法
-docker build [OPTIONS] PATH | URL | -
-
-PATH: 包含 Dockerfile 的目录路径或 .（当前目录）。
-URL: 指向包含 Dockerfile 的远程存储库地址（如 Git 仓库）。
--: 从标准输入读取 Dockerfile。
-常用选项：
-
--t, --tag: 为构建的镜像指定名称和标签。
--f, --file: 指定 Dockerfile 的路径（默认是 PATH 下的 Dockerfile）。
---build-arg: 设置构建参数。
---no-cache: 不使用缓存层构建镜像。
---rm: 构建成功后删除中间容器（默认开启）。
---force-rm: 无论构建成功与否，一律删除中间容器。
---pull: 始终尝试从注册表拉取最新的基础镜像。
-更多选项说明：
-
---build-arg=[]: 设置构建镜像时的变量。
---cpu-shares: 设置 CPU 使用权重。
---cpu-period: 限制 CPU CFS 周期。
---cpu-quota: 限制 CPU CFS 配额。
---cpuset-cpus: 指定可使用的 CPU ID。
---cpuset-mems: 指定可使用的内存节点 ID。
---disable-content-trust: 忽略内容信任验证（默认启用）。
--f: 指定 Dockerfile 的路径。
---force-rm: 强制在构建过程中删除中间容器。
---isolation: 使用指定的容器隔离技术。
---label=[]: 设置镜像的元数据。
--m: 设置内存的最大值。
---memory-swap: 设置交换空间的最大值（内存 + 交换空间），-1 表示不限制交换空间。
---no-cache: 构建镜像时不使用缓存。
---pull: 尝试拉取基础镜像的最新版本。
---quiet, -q: 安静模式，构建成功后只输出镜像 ID。
---rm: 构建成功后删除中间容器（默认启用）。
---shm-size: 设置 /dev/shm 的大小，默认值为 64M。
---ulimit: 设置 Ulimit 配置。
---squash: 将 Dockerfile 中所有步骤压缩为一层。
---tag, -t: 为镜像指定名称和标签，格式为 name:tag 或 name；可以在一次构建中为一个镜像设置多个标签。
---network: 在构建期间设置 RUN 指令的网络模式，默认值为 default。
-
-# 1、构建镜像
-# 这会从当前目录读取 Dockerfile 并构建一个名为 myimage:latest 的镜像。
-docker build -t myimage:latest .
-
-# 2、指定 Dockerfile 路径
-# 这会从 /path/to/ 目录读取 Dockerfile 并构建一个名为 myimage:latest 的镜像。
-docker build -f /path/to/Dockerfile -t myimage:latest .
-
-# 3、设置构建参数
-# 这会在构建过程中使用 HTTP_PROXY 环境变量。
-docker build --build-arg HTTP_PROXY=http://proxy.example.com -t myimage:latest .
-
-# 4、不使用缓存层构建镜像
-# 这会在构建镜像时忽略所有缓存层，确保每一步都重新执行。
-docker build --no-cache -t myimage:latest .
-
-
-# 实例 - 使用 Dockerfile 构建镜像
-# 1、创建 Dockerfile，内容如下：
-
-# Dockerfile 示例
-FROM ubuntu:20.04
-LABEL maintainer="yourname@example.com"
-RUN apt-get update && apt-get install -y nginx
-COPY index.html /var/www/html/index.html
-CMD ["nginx", "-g", "daemon off;"]
-# 2、构建镜像
-
-docker build -t mynginx:latest .
-
-
-# docker buildx build 构建linux/arm64架构镜像
-docker buildx build --platform linux/arm64,linux/amd64 -f /root/HivisionIDPhotos/Dockerfile -t hivision_idphotos:1.2.9 .
-
-# docker buildx build 构建linux/amd64架构镜像
-docker buildx build --platform linux/arm64 -f /root/HivisionIDPhotos/Dockerfile -t hivision_idphotos:1.2.9 .
-
-
--------------------------------------------------------------------------------------------------------
-# docker buildx 离线安装
-mkdir -pv /usr/local/lib/docker/cli-plugins
-mv buildx-v0.17.1.linux-amd64 /usr/local/lib/docker/cli-plugins/docker-buildx
-chmod +x /usr/local/lib/docker/cli-plugins/docker-buildx
-
-# 如果想让其在系统级别可用，可将其拷贝至如下路径：
-/usr/local/lib/docker/cli-plugins OR /usr/local/libexec/docker/cli-plugins
-/usr/lib/docker/cli-plugins OR /usr/libexec/docker/cli-plugins
--------------------------------------------------------------------------------------------------------
-# 安装模拟器的主要作用是让buildx支持跨CPU架构编译。
-# 模拟器对应的仓库名称是：tonistiigi/binfmt:latest ，如果你的环境能联网，使用一下命令：
-docker run --privileged --rm tonistiigi/binfmt --install all
-
-# 如果你的环境不能联网，则需先在外网环境下载好镜像，导入内网之后，再安装：
-# 外网下载镜像，注意（如果你的内网环境机器是arm架构，就下载arm版本，如果你的内网环境机器是amd架构，就下载amd版本；这里我下载的是arm版本）
-docker pull tonistiigi/binfmt:latest@sha256:01882a96113f38b1928a5797c52f7eaa7e39acf6cc15ec541c6e8428f3c2347d
-# 导出镜像
-docker save -o tonistiigi_binfmt_arm64.tar f1d8c13be37e
-# 在内网机器执行如下命令，导入镜像
-docker load -i tonistiigi_binfmt_arm64.tar
-# 安装模拟器
-docker run --privileged --rm tonistiigi/binfmt --install all
-
-# 验证是否安装成功
-docker buildx ls 
-default       docker
-  default     default    running   linux/amd64, linux/arm64, linux/riscv64, linux/ppc64le, linux/s390x, linux/386, linux/arm/v7, linux/arm/v6
-
-# 验证arm机器上的amd模拟器是否安装成功，则执行如下命令，输出结果包含enable即可
-cat /proc/sys/fs/binfmt_misc/qemu-x86_64
-enabled
-
-# 如果你是amd机器，需要验证arm模拟器是否安装成功，则执行如下命令，输出结果包含enable即可
-cat /proc/sys/fs/binfmt_misc/qemu-aarch64
-enabled
-
-```
-
-
-
-##### Docker容器
-
-```shell
-# 显示当前正在运行的容器
-docker ps
-# 显示所有容器
-docker ps -a
 # 列出最近创建的2个容器信息
 docker ps -a -n 2
 # 根据名称过滤
@@ -312,62 +211,132 @@ docker stats d6d71fe0e04f
 ##### Docker run
 
 ```shell
-# 限制内存使用
-# 使用--memory或-m标志来指定容器的最大内存使用量。例如，如果你想要限制一个容器最多只能使用512MB的内存
-docker run -d --name some-container -m 512M some-image
-
-# 设置CPU核心数量 如果你想直接指定容器可以访问的CPU核心数量，可以使用--cpus参数。例如，分配0.5个CPU核心给容器
-docker run -d --name some-container --cpus 0.5 some-image
+# 限制容器的CPU与内存使用
 
 # 指定可用的CPU核心 可以使用--cpuset-cpus来指定容器可以使用的实际CPU核心列表。例如，只允许容器使用第0号和第1号CPU核心：
 docker run -d --name some-container --cpuset-cpus 0,1 some-image
 
+# 分配0.5个CPU核心给容器，限制容器最多只能使用512MB的内存
 docker run -d --name some-container --cpus 0.5 -m 512M some-image
+```
+
+##### Docker镜像构建
+
+```shell
+# 语法
+docker build [OPTIONS] PATH | URL | -
+
+PATH: 包含 Dockerfile 的目录路径或 .（当前目录）。
+URL: 指向包含 Dockerfile 的远程存储库地址（如 Git 仓库）。
+-: 从标准输入读取 Dockerfile。
+常用选项：
+
+-t, --tag: 为构建的镜像指定名称和标签。
+-f, --file: 指定 Dockerfile 的路径（默认是 PATH 下的 Dockerfile）。
+--build-arg: 设置构建参数。
+--no-cache: 不使用缓存层构建镜像。
+--rm: 构建成功后删除中间容器（默认开启）。
+--force-rm: 无论构建成功与否，一律删除中间容器。
+--pull: 始终尝试从注册表拉取最新的基础镜像。
+更多选项说明：
+
+--build-arg=[]: 设置构建镜像时的变量。
+--cpu-shares: 设置 CPU 使用权重。
+--cpu-period: 限制 CPU CFS 周期。
+--cpu-quota: 限制 CPU CFS 配额。
+--cpuset-cpus: 指定可使用的 CPU ID。
+--cpuset-mems: 指定可使用的内存节点 ID。
+--disable-content-trust: 忽略内容信任验证（默认启用）。
+-f: 指定 Dockerfile 的路径。
+--force-rm: 强制在构建过程中删除中间容器。
+--isolation: 使用指定的容器隔离技术。
+--label=[]: 设置镜像的元数据。
+-m: 设置内存的最大值。
+--memory-swap: 设置交换空间的最大值（内存 + 交换空间），-1 表示不限制交换空间。
+--no-cache: 构建镜像时不使用缓存。
+--pull: 尝试拉取基础镜像的最新版本。
+--quiet, -q: 安静模式，构建成功后只输出镜像 ID。
+--rm: 构建成功后删除中间容器（默认启用）。
+--shm-size: 设置 /dev/shm 的大小，默认值为 64M。
+--ulimit: 设置 Ulimit 配置。
+--squash: 将 Dockerfile 中所有步骤压缩为一层。
+--tag, -t: 为镜像指定名称和标签，格式为 name:tag 或 name；可以在一次构建中为一个镜像设置多个标签。
+--network: 在构建期间设置 RUN 指令的网络模式，默认值为 default。
+
+# 1、构建镜像
+# 这会从当前目录读取 Dockerfile 并构建一个名为 myimage:latest 的镜像。
+docker build -t myimage:latest .
+
+# 2、指定 Dockerfile 路径
+# 这会从 /path/to/ 目录读取 Dockerfile 并构建一个名为 myimage:latest 的镜像。
+docker build -f /path/to/Dockerfile -t myimage:latest .
+
+# 3、设置构建参数
+# 这会在构建过程中使用 HTTP_PROXY 环境变量。
+docker build --build-arg HTTP_PROXY=http://proxy.example.com -t myimage:latest .
+
+# 4、不使用缓存层构建镜像
+# 这会在构建镜像时忽略所有缓存层，确保每一步都重新执行。
+docker build --no-cache -t myimage:latest .
 
 
-docker run -it nginx:latest /bin/bash
+# 实例 - 使用 Dockerfile 构建镜像
+# 1、创建 Dockerfile，内容如下：
 
-docker run [OPTIONS] IMAGE [COMMAND] [ARG...]    
+# Dockerfile 示例
+FROM ubuntu:20.04
+LABEL maintainer="yourname@example.com"
+RUN apt-get update && apt-get install -y nginx
+COPY index.html /var/www/html/index.html
+CMD ["nginx", "-g", "daemon off;"]
+# 2、构建镜像
 
--d, --detach=false         # 指定容器运行于前台还是后台，默认为false     
--i, --interactive=false    # 打开STDIN，用于控制台交互    
--t, --tty=false            # 分配tty设备，该可以支持终端登录，默认为false    
--u, --user=""              # 指定容器的用户    
--a, --attach=[]            # 登录容器（必须是以docker run -d启动的容器）  
--w, --workdir=""           # 指定容器的工作目录   
--c, --cpu-shares=0         # 设置容器CPU权重，在CPU共享场景使用    
--e, --env=[]               # 指定环境变量，容器中可以使用该环境变量    
--m, --memory=""            # 指定容器的内存上限    
--P, --publish-all=false    # 指定容器暴露的端口    
--p, --publish=[]           # 指定容器暴露的端口   
--h, --hostname=""          # 指定容器的主机名    
--v, --volume=[]            # 给容器挂载存储卷，挂载到容器的某个目录    
---volumes-from=[]          # 给容器挂载其他容器上的卷，挂载到容器的某个目录  
---cap-add=[]               # 添加权限，权限清单详见：http://linux.die.net/man/7/capabilities    
---cap-drop=[]              # 删除权限，权限清单详见：http://linux.die.net/man/7/capabilities    
---cidfile=""               # 运行容器后，在指定文件中写入容器PID值，一种典型的监控系统用法    
---cpuset=""                # 设置容器可以使用哪些CPU，此参数可以用来容器独占CPU    
---device=[]                # 添加主机设备给容器，相当于设备直通    
---dns=[]                   # 指定容器的dns服务器    
---dns-search=[]            # 指定容器的dns搜索域名，写入到容器的/etc/resolv.conf文件    
---entrypoint=""            # 覆盖image的入口点    
---env-file=[]              # 指定环境变量文件，文件格式为每行一个环境变量    
---expose=[]                # 指定容器暴露的端口，即修改镜像的暴露端口    
---link=[]                  # 指定容器间的关联，使用其他容器的IP、env等信息    
---lxc-conf=[]              # 指定容器的配置文件，只有在指定--exec-driver=lxc时使用    
---name=""                  # 指定容器名字，后续可以通过名字进行容器管理，links特性需要使用名字    
---net="bridge"             # 容器网络设置:  
-                           # bridge 使用docker daemon指定的网桥       
-                           # host    //容器使用主机的网络    
-                           # container:NAME_or_ID  >//使用其他容器的网路，共享IP和PORT等网络资源    
-                           # none 容器使用自己的网络（类似--net=bridge），但是不进行配置   
---privileged=false         # 指定容器是否为特权容器，特权容器拥有所有的capabilities    
---restart="no"             # 指定容器停止后的重启策略:  
-                           # no：容器退出时不重启    
-                           # on-failure：容器故障退出（返回值非零）时重启   
-                           # always：容器退出时总是重启    
---rm=false                 # 指定容器停止后自动删除容器(不支持以docker run -d启动的容器)    
---sig-proxy=true           # 设置由代理接受并处理信号，但是SIGCHLD、SIGSTOP和SIGKILL不能被代理    
+docker build -t mynginx:latest .
+
+
+# docker buildx build 构建linux/arm64架构镜像
+docker buildx build --platform linux/arm64,linux/amd64 -f /root/HivisionIDPhotos/Dockerfile -t hivision_idphotos:1.2.9 .
+
+# docker buildx build 构建linux/amd64架构镜像
+docker buildx build --platform linux/arm64 -f /root/HivisionIDPhotos/Dockerfile -t hivision_idphotos:1.2.9 .
+
+
+-------------------------------------------------------------------------------------------------------
+# docker buildx 离线安装
+mkdir -pv /usr/local/lib/docker/cli-plugins
+mv buildx-v0.17.1.linux-amd64 /usr/local/lib/docker/cli-plugins/docker-buildx
+chmod +x /usr/local/lib/docker/cli-plugins/docker-buildx
+
+# 如果想让其在系统级别可用，可将其拷贝至如下路径：
+/usr/local/lib/docker/cli-plugins OR /usr/local/libexec/docker/cli-plugins
+/usr/lib/docker/cli-plugins OR /usr/libexec/docker/cli-plugins
+-------------------------------------------------------------------------------------------------------
+# 安装模拟器的主要作用是让buildx支持跨CPU架构编译。
+# 模拟器对应的仓库名称是：tonistiigi/binfmt:latest ，如果你的环境能联网，使用一下命令：
+docker run --privileged --rm tonistiigi/binfmt --install all
+
+# 如果你的环境不能联网，则需先在外网环境下载好镜像，导入内网之后，再安装：
+# 外网下载镜像，注意（如果你的内网环境机器是arm架构，就下载arm版本，如果你的内网环境机器是amd架构，就下载amd版本；这里我下载的是arm版本）
+docker pull tonistiigi/binfmt:latest@sha256:01882a96113f38b1928a5797c52f7eaa7e39acf6cc15ec541c6e8428f3c2347d
+# 导出镜像
+docker save -o tonistiigi_binfmt_arm64.tar f1d8c13be37e
+# 在内网机器执行如下命令，导入镜像
+docker load -i tonistiigi_binfmt_arm64.tar
+# 安装模拟器
+docker run --privileged --rm tonistiigi/binfmt --install all
+
+# 验证是否安装成功
+docker buildx ls 
+default       docker
+  default     default    running   linux/amd64, linux/arm64, linux/riscv64, linux/ppc64le, linux/s390x, linux/386, linux/arm/v7, linux/arm/v6
+
+# 验证arm机器上的amd模拟器是否安装成功，则执行如下命令，输出结果包含enable即可
+cat /proc/sys/fs/binfmt_misc/qemu-x86_64
+enabled
+
+# 如果你是amd机器，需要验证arm模拟器是否安装成功，则执行如下命令，输出结果包含enable即可
+cat /proc/sys/fs/binfmt_misc/qemu-aarch64
+enabled
 ```
 
 #### Docker可视化web界面管理-Portainer部署
