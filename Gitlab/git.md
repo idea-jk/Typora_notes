@@ -6,6 +6,7 @@
 
 ```shell
 git init
+git branch -M main  //修改仓库名为main
 ```
 
 设置提交代码时的用户信息：
@@ -19,10 +20,6 @@ git config --global user.email "123@qq.com"
 
 ```shell
 git remote -v  //查看与远程仓库连接情况
-<<<<<<< HEAD
-git branch -m master main  //修改分支master为main
-=======
->>>>>>> 431289ffbc53aee9679fe00236d97769f3a6a4e9
 ```
 
 ![](..\image\git\aecb61e34c3baa8032c03cea7c80793d.png)
@@ -34,27 +31,15 @@ git remote add origin [远程仓库连接地址]  //新建远程仓库连接
 ![](..\image\git\4765b6d1ae11ce825ef09224db86760a.png)
 
 ```shell
-<<<<<<< HEAD
 git remote rm origin [远程仓库连接地址]  //解除连接
 
 git pull origin main  //拉取同步文件
 
 git add .  //添加需要同步上传的文件 . 表示上传全部
 
-git commit -m "备注说明"
-
-git push origin main  //开始进行push，弹出GitHub登录窗口，输入注册的GitHub账号即可
-=======
-git remote rm origin [远程仓库连接地址]   //解除连接
-
-git pull origin main//拉取同步文件
-
-git add . //添加需要同步上传的文件 . 表示上传全部
-
 git commit -m "备注说明”
 
-git push origin main//开始进行push，弹出GitHub登录窗口，输入注册的GitHub账号即可
->>>>>>> 431289ffbc53aee9679fe00236d97769f3a6a4e9
+git push origin main  //开始进行push，弹出GitHub登录窗口，输入注册的GitHub账号即可
 ```
 
 ## 连接当中遇到的问题：
@@ -68,11 +53,7 @@ git push origin main//开始进行push，弹出GitHub登录窗口，输入注册
 在进行拉取同步文件那一步改为:
 
 ```shell
-<<<<<<< HEAD
-git pull origin main --allow-unrelated-histories  //把远程仓库和本地同步，消除差异
-=======
 git pull origin main --allow-unrelated-histories //把远程仓库和本地同步，消除差异
->>>>>>> 431289ffbc53aee9679fe00236d97769f3a6a4e9
 ```
 
 重新add和commit相应文件 git push origin main
