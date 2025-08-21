@@ -9,7 +9,7 @@ journalctl --vacuum-files=2
 
 # 要删除7天之前的日志
 journalctl --vacuum-time=7d
-journalctl --vacuum-size=500M
+journalctl --vacuum-size=50M
 
 # 仅查看当前启动的日志
 journalctl -b
