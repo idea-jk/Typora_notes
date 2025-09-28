@@ -26,6 +26,24 @@ mv:移动文件或重命名
 # 例: mv file file_back 把当前目录的file文件重命名为file_back
 ```
 
+##### 文件批量重命名
+
+```shell
+# mmv命令需要先安装
+dnf install -y mmv
+# 将当前目录下所有以 temp_ 开头的文件，重命名为以 final_ 开头，且保持文件名其余部分不变：
+mmv 'temp_*' 'final_#1'
+
+# 在原文件加后缀.mp4
+mmv '*' '#1.mp4'
+
+# 去掉原文件S02E内容
+mmv 'S02E*' '#1'
+
+#去掉原文件中中间段内容
+mmv '*.2160p.WEB-DL.H264.AAC*.mp4' '#1.mp4'
+```
+
 
 
 ## 搜索命令
