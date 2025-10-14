@@ -106,6 +106,8 @@
 
 4. `apt-get dist-upgrade`：升级系统中的所有软件包。
 
-5. `apt-get autoclean`：清理已下载的软件包文件。
+5. `apt install -y --only-upgrade <package_name>`：升级指定的软件包
 
-6. `apt-get clean`：清理软件包缓存。
+6. `apt-get autoclean`：清理已下载的软件包文件。
+
+7. `apt-get clean`：清理软件包缓存。
