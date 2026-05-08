@@ -122,6 +122,15 @@ cat new-phpdev.tar | docker import new-phpdev/phpdev:v1
 docker load --import [文件名]
 docker load < [文件名]
 
+# 使用 xargs 简化批量加载--该方式利用xargs将文件名传递给docker load，适合快速批量处理。
+
+# 当前目录下tar.gz格式的镜像
+ls *.tar.gz | xargs -I {} docker load -i {}
+ls immich*.tar.gz | xargs -I {} docker load -i {}
+
+# 当前目录的docker目录下tar.gz格式的镜像
+ls docker/*.tar.gz | xargs -I {} docker load -i {}
+
 # 将容器打包为镜像
 docker commit <容器ID或名称> <镜像名称>:<标签>
 
