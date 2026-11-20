@@ -37,7 +37,7 @@ git pull origin main  //拉取同步文件
 
 git add .  //添加需要同步上传的文件 . 表示上传全部
 
-git commit -m "备注说明”
+git commit -m "备注说明"
 
 git push origin main  //开始进行push，弹出GitHub登录窗口，输入注册的GitHub账号即可
 ```
